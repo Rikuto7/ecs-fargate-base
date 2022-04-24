@@ -1,0 +1,46 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: builds/Dockerfile
+    container_name: app
+    restart: always
+    volumes:
+      - .:/work_dir
+    # env_file:
+    #   - .envs/.fast_api
+    #   - .envs/.mysql
+    # networks:
+    #   - fastapi_network
+    command: uvicorn app.main:app --reload --port=8000 --host=0.0.0.0
+    ports:
+      - 8000:8000
+  # db:
+  #   image: mysql:5.7
+  #   container_name: db
+  #   # networks:
+  #   #   - fastapi_network
+  #   env_file:
+  #     - .envs/.mysql
+  #   # volumes:
+  #   #   - ./app:/wark_dir/app:cached
+  #   #   - ./db:/wark_dir/db:cached
+  #   #   - ./scripts:/wark_dir/scripts:cached
+  #   ports:
+  #     - "3306:3306"
+  #   # command: "touch /var/log/mysql/mysqld.log"
+  # redis:
+  #   image: redis:latest
+  #   container_name: redis
+  #   volumes:
+  #     - ./app:/data
+
+# networks:
+#   default:
+#     external:
+#       name: bridge
+#   fastapi_network:
+#     name: fastapi_network
+#     driver: bridge
+#     external: true
